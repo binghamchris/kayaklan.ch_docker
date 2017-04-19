@@ -2,7 +2,8 @@ FROM nginx
 
 MAINTAINER Chris Bingham "chris@pearit.co.uk"
 
-ENV KL_VERSION 1.4
+ARG KL_VERSION=1.4
+ARG GOOGLE_API_KEY
 
 WORKDIR /tmp
 
@@ -15,3 +16,7 @@ RUN cp -r ./kayaklaun.ch-${KL_VERSION}/* /usr/share/nginx/html
 RUN rm -rf ./kayaklaun.ch-${KL_VERSION}
 
 RUN rm -rf ${KL_VERSION}.tar.gz
+
+WORKDIR /usr/share/nginx/html
+
+RUN KEY_LINE=$(grep -nr maps.googleapis.com index.html | cut -d : -f 1) && sed -i ${KEY_LINE}s/key=.*\&/"key=${GOOGLE_API_KEY}\&"/ index.html
