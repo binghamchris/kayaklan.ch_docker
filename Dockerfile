@@ -1,4 +1,4 @@
-FROM nginx
+FROM nginx:alpine
 
 MAINTAINER Chris Bingham "chris@pearit.co.uk"
 
@@ -20,3 +20,8 @@ RUN rm -rf ${KL_VERSION}.tar.gz
 WORKDIR /usr/share/nginx/html
 
 RUN KEY_LINE=$(grep -nr maps.googleapis.com index.html | cut -d : -f 1) && sed -i ${KEY_LINE}s/key=.*\&/"key=${GOOGLE_API_KEY}\&"/ index.html
+
+RUN apk --no-cache add curl curl
+
+HEALTHCHECK --interval=10s --timeout=1s \
+  CMD curl -f http://localhost/ | grep -q "KayakLaun.ch"
