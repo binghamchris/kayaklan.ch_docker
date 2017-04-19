@@ -23,5 +23,5 @@ RUN KEY_LINE=$(grep -nr maps.googleapis.com index.html | cut -d : -f 1) && sed -
 
 RUN apk --no-cache add curl curl
 
-HEALTHCHECK --interval=10s --timeout=1s \
-  CMD curl -f http://localhost/ | grep -q "KayakLaun.ch"
+#HEALTHCHECK --interval=10s --timeout=1s \
+#  CMD curl -f http://localhost/ | grep -q "KayakLaun.ch"
